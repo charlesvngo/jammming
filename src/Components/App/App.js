@@ -1,7 +1,8 @@
 import './App.css'
 import { useState, useEffect } from 'react';
-import SearchResults from '../SearchResults/SearchResults'
+import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import SearchBar from '../SearchBar/SearchBar';
 
 function App() {
   const [ searchResults, setSearchResults ] = useState([
@@ -25,35 +26,48 @@ function App() {
     }
   ])
 
-  const [ playlist, setPlaylist ] = useState([
-    {
-      name: "Surrender",
-      artist: "Billy Talent",
-      album: "Billy Talent II",
-      id: "1"
+  const [ playlist, setPlaylist ] = useState({
+    name: "New Playlist",
+    tracks: [
+      {
+        name: "Surrender",
+        artist: "Billy Talent",
+        album: "Billy Talent II",
+        id: "1"
+      },
+      {
+        name: "Reckless Paradise",
+        artist: "Billy Talent",
+        album: "Crisis of Faith",
+        id: "4"
+      }]
     }
-  ])
+  )
   
   const addTrack = (track) => {
     let isInPlaylist = false;
-    for (const song of playlist) {
+    for (const song of playlist.tracks) {
       if(song.id === track.id) {
         isInPlaylist = true;
       }
     }
     if (!isInPlaylist) {
-      setPlaylist([...playlist, {...track}])
+      setPlaylist({...playlist, tracks:[...playlist.tracks, track]})
     }
   }
 
   const removeTrack = (track) => {
-    for (const songIndex in playlist) {
-      if (playlist[songIndex].id === track.id) {
-        let array = [...playlist]
+    for (const songIndex in playlist.tracks) {
+      if (playlist.tracks[songIndex].id === track.id) {
+        let array = [...playlist.tracks]
         array.splice(songIndex, 1)
-        setPlaylist(array);
+        setPlaylist({ name: playlist.name, tracks: array });
       }
     }
+  }
+
+  const updatePlaylistName = (name) => {
+    setPlaylist({...playlist, name: name})
   }
 
   return (
@@ -61,11 +75,12 @@ function App() {
       <h1>Ja<span className="highlight">mmm</span>ing</h1>
       <div className="App">
         {/* <!-- Add a SearchBar component --> */}
+        <SearchBar />
         <div className="App-playlist">
           {/* <!-- Add a SearchResult component --> */}
           <SearchResults searchResults={searchResults} onAdd={addTrack}/>
           {/* <!-- Add a Playlist component --> */}
-          <Playlist playlist={playlist} onRemove={removeTrack}/>
+          <Playlist playlist={playlist} onRemove={removeTrack} onNameChange={updatePlaylistName}/>
         </div>
       </div>
     </>

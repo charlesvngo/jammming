@@ -1,6 +1,6 @@
 import './SearchBar.css'
 
-export const SearchBar = () => {
+const SearchBar = () => {
   return (
     <div className="SearchBar">
       <input placeholder="Enter A Song, Album, or Artist" />
@@ -8,3 +8,5 @@ export const SearchBar = () => {
     </div>
   )
 }
+
+export default SearchBar;
