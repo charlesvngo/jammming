@@ -6,6 +6,9 @@ export const Track = (props) => {
     return isRemoval ? '-' : '+';
   }
 
+  const handleClick = (isRemoval) => {
+    return isRemoval ? props.onRemove : props.onAdd;
+  }
 
 
   return (
@@ -20,7 +23,7 @@ export const Track = (props) => {
           {props.artist} | {props.album}
         </p>
       </div>
-      <button className="Track-action" onClick={props.onAdd}>
+      <button className="Track-action" onClick={handleClick(props.isRemoval)}>
         {renderAction(props.isRemoval)}
       </button>
     </div>

@@ -35,8 +35,24 @@ function App() {
   ])
   
   const addTrack = (track) => {
+    let isInPlaylist = false;
     for (const song of playlist) {
-      if (song.id !== track.id) setPlaylist([...playlist, {...track}])
+      if(song.id === track.id) {
+        isInPlaylist = true;
+      }
+    }
+    if (!isInPlaylist) {
+      setPlaylist([...playlist, {...track}])
+    }
+  }
+
+  const removeTrack = (track) => {
+    for (const songIndex in playlist) {
+      if (playlist[songIndex].id === track.id) {
+        let array = [...playlist]
+        array.splice(songIndex, 1)
+        setPlaylist(array);
+      }
     }
   }
 
@@ -49,7 +65,7 @@ function App() {
           {/* <!-- Add a SearchResult component --> */}
           <SearchResults searchResults={searchResults} onAdd={addTrack}/>
           {/* <!-- Add a Playlist component --> */}
-          <Playlist playlist={playlist} />
+          <Playlist playlist={playlist} onRemove={removeTrack}/>
         </div>
       </div>
     </>
