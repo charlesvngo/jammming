@@ -1,12 +1,15 @@
+import TrackList from '../TrackList/TrackList';
 import './Playlist.css'
 
-export const Playlist = () => {
+const Playlist = (props) => {
   const defaultValue = 'New Playlist';
   return (
     <div className="Playlist">
       <input value={defaultValue}/>
-      {/* <!-- Add a TrackList component --> */}
+      <TrackList tracks={props.playlist} />
       <button className="Playlist-save">SAVE TO SPOTIFY</button>
     </div>
   )
 }
+
+export default Playlist;
