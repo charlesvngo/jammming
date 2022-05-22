@@ -11,7 +11,7 @@ const TrackList = (props) => {
         artist={track.artist}
         album={track.album}
         isRemoval={props.isRemoval}
-        onAdd={props.onAdd}
+        onAdd={() => props.onAdd(track)}
       />
     )
   })

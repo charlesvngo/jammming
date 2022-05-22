@@ -7,6 +7,7 @@ export const Track = (props) => {
   }
 
 
+
   return (
     <div className="Track">
       <div className="Track-information">
@@ -19,7 +20,7 @@ export const Track = (props) => {
           {props.artist} | {props.album}
         </p>
       </div>
-      <button className="Track-action">
+      <button className="Track-action" onClick={props.onAdd}>
         {renderAction(props.isRemoval)}
       </button>
     </div>

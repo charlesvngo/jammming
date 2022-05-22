@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchResults from '../SearchResults/SearchResults'
 import Playlist from '../Playlist/Playlist';
 
@@ -16,6 +16,12 @@ function App() {
       artist: "Billy Talent",
       album: "Billy Talent II",
       id: "2"
+    },
+    {
+      name: "Rusted From the Rain",
+      artist: "Billy Talent",
+      album: "Billy Talent III",
+      id: "3"
     }
   ])
 
@@ -25,14 +31,14 @@ function App() {
       artist: "Billy Talent",
       album: "Billy Talent II",
       id: "1"
-    },
-    {
-      name: "Fallen Leaves",
-      artist: "Billy Talent",
-      album: "Billy Talent II",
-      id: "2"
     }
   ])
+  
+  const addTrack = (track) => {
+    for (const song of playlist) {
+      if (song.id !== track.id) setPlaylist([...playlist, {...track}])
+    }
+  }
 
   return (
     <>
@@ -41,7 +47,7 @@ function App() {
         {/* <!-- Add a SearchBar component --> */}
         <div className="App-playlist">
           {/* <!-- Add a SearchResult component --> */}
-          <SearchResults searchResults={searchResults} onAdd={setPlaylist}/>
+          <SearchResults searchResults={searchResults} onAdd={addTrack}/>
           {/* <!-- Add a Playlist component --> */}
           <Playlist playlist={playlist} />
         </div>
