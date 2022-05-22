@@ -43,6 +43,8 @@ function App() {
       }]
     }
   )
+
+  const [ term, setTerm ] = useState("")
   
   const addTrack = (track) => {
     let isInPlaylist = false;
@@ -70,17 +72,30 @@ function App() {
     setPlaylist({...playlist, name: name})
   }
 
+  const savePlaylist = () => {
+    const trackURIs = [];
+    for (const song of playlist.tracks) {
+      trackURIs.push(song.id);
+    }
+    console.log(trackURIs, playlist.name)
+  }
+
+  const search = (searchTerm) => {
+    setTerm(searchTerm);
+    console.log(searchTerm);
+  }
+
   return (
     <>
       <h1>Ja<span className="highlight">mmm</span>ing</h1>
       <div className="App">
         {/* <!-- Add a SearchBar component --> */}
-        <SearchBar />
+        <SearchBar onSearch={search} term={term}/>
         <div className="App-playlist">
           {/* <!-- Add a SearchResult component --> */}
           <SearchResults searchResults={searchResults} onAdd={addTrack}/>
           {/* <!-- Add a Playlist component --> */}
-          <Playlist playlist={playlist} onRemove={removeTrack} onNameChange={updatePlaylistName}/>
+          <Playlist playlist={playlist} onRemove={removeTrack} onNameChange={updatePlaylistName} onSave={savePlaylist} />
         </div>
       </div>
     </>
