@@ -13,13 +13,11 @@ function App() {
   }, []);
 
   const [ searchResults, setSearchResults ] = useState([])
-
   const [ playlist, setPlaylist ] = useState({
     name: "New Playlist",
     tracks: []
     }
   )
-
   const [ term, setTerm ] = useState("")
   
   const addTrack = (track) => {
@@ -51,9 +49,17 @@ function App() {
   const savePlaylist = () => {
     const trackURIs = [];
     for (const song of playlist.tracks) {
-      trackURIs.push(song.id);
+      trackURIs.push("spotify:track:" + song.id);
     }
     Spotify.savePlaylist(playlist.name, trackURIs)
+      .then(() => {
+        setSearchResults([]);
+        setPlaylist({
+          name: "New Playlist",
+          tracks: []
+          });
+        setTerm("")
+      })
   }
 
   const search = (searchTerm) => {
