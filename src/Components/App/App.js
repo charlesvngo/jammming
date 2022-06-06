@@ -1,10 +1,17 @@
 import './App.css'
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Spotify } from '../../util/Spotify';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import SearchBar from '../SearchBar/SearchBar';
 
+
 function App() {
+
+  useEffect(() => {
+    Spotify.getAccessToken();
+  }, []);
+
   const [ searchResults, setSearchResults ] = useState([
     {
       name: "Surrender",
@@ -82,7 +89,13 @@ function App() {
 
   const search = (searchTerm) => {
     setTerm(searchTerm);
-    console.log(searchTerm);
+  }
+
+  const searchArtist = (term) => {
+    Spotify.search(term)
+      .then((results) => {
+        setSearchResults(results);
+      })
   }
 
   return (
@@ -90,7 +103,7 @@ function App() {
       <h1>Ja<span className="highlight">mmm</span>ing</h1>
       <div className="App">
         {/* <!-- Add a SearchBar component --> */}
-        <SearchBar onSearch={search} term={term}/>
+        <SearchBar onSearch={search} term={term} onButtonClick={searchArtist}/>
         <div className="App-playlist">
           {/* <!-- Add a SearchResult component --> */}
           <SearchResults searchResults={searchResults} onAdd={addTrack}/>
