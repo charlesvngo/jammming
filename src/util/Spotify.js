@@ -2,10 +2,11 @@ import axios from 'axios';
 let accessToken = '';
 let expiresIn = '';
 
-let url = "https://accounts.spotify.com/authorize"
-url += '?response_type=token'
+let url = "https://accounts.spotify.com/authorize";
+url += '?response_type=token';
 url += '&client_id=' + process.env.REACT_APP_CLIENT_ID;
-url += '&redirect_uri=' + process.env.REACT_APP_REDIRECT_URI
+url += '&redirect_uri=' + process.env.REACT_APP_REDIRECT_URI;
+url += '&scope=playlist-modify-public';
 
 
 const Spotify = {
@@ -46,6 +47,22 @@ const Spotify = {
       .catch((error) => {
         console.log(error)
       })
+  },
+
+  savePlaylist(playlistName, playlistTracks) {
+    const token = accessToken
+    const header = { Authorization: "Bearer " + token }
+    const url = 'https://api.spotify.com'
+    let userId = ''
+    let playlistId = ''
+    axios.get(`${url}/v1/me`, { headers: header })
+      .then(result => userId = result.data.id)
+      .then(() => axios.post(`${url}/v1/users/{${userId}}/playlists`, { name: playlistName }, { headers: header }))
+      .then((result) => console.log(result.data))
+      // .then(result => playlistId = result.data.id)
+      // .then(() => axios.post(`${url}/v1/users/${userId}/playlists/${playlistId}/tracks`, playlistTracks, { headers: header }))
+      .catch(error => console.log(error))
+      
   }
 
 }

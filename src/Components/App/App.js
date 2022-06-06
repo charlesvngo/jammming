@@ -12,42 +12,11 @@ function App() {
     Spotify.getAccessToken();
   }, []);
 
-  const [ searchResults, setSearchResults ] = useState([
-    {
-      name: "Surrender",
-      artist: "Billy Talent",
-      album: "Billy Talent II",
-      id: "1"
-    },
-    {
-      name: "Fallen Leaves",
-      artist: "Billy Talent",
-      album: "Billy Talent II",
-      id: "2"
-    },
-    {
-      name: "Rusted From the Rain",
-      artist: "Billy Talent",
-      album: "Billy Talent III",
-      id: "3"
-    }
-  ])
+  const [ searchResults, setSearchResults ] = useState([])
 
   const [ playlist, setPlaylist ] = useState({
     name: "New Playlist",
-    tracks: [
-      {
-        name: "Surrender",
-        artist: "Billy Talent",
-        album: "Billy Talent II",
-        id: "1"
-      },
-      {
-        name: "Reckless Paradise",
-        artist: "Billy Talent",
-        album: "Crisis of Faith",
-        id: "4"
-      }]
+    tracks: []
     }
   )
 
@@ -84,7 +53,7 @@ function App() {
     for (const song of playlist.tracks) {
       trackURIs.push(song.id);
     }
-    console.log(trackURIs, playlist.name)
+    Spotify.savePlaylist(playlist.name, trackURIs)
   }
 
   const search = (searchTerm) => {
